@@ -1,4 +1,4 @@
-# test
+# Client side of the website
 
 This template should help get you started developing with Vue 3 in Vite.
 
