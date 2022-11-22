@@ -1,0 +1,13 @@
+@import './base.css';
+
+ul {
+  list-style-type: none;
+}
+
+footer {
+  color: white;
+}
+
+.imgBg {
+  height: auto ;
+}
