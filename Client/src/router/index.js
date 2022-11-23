@@ -3,6 +3,11 @@ import HomeView from '../views/Home.vue'
 import Product from '../views/Product.vue'
 import Pannier from '../views/Pannier.vue'
 import Login from '../views/Login.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Article from '../views/Article.vue'
+import Commande from '../views/Commandes.vue'
+import User from '../views/User.vue'
+import Setting from '../views/Setting.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +39,31 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard
+    },
+    {
+      path: '/dashboard/Article',
+      name: 'article',
+      component: Article
+    },
+    {
+      path: '/dashboard/Commande',
+      name: 'commande',
+      component: Commande
+    },
+    {
+      path: '/dashboard/User',
+      name: 'user',
+      component: User
+    },
+    {
+      path: '/dashboard/Settings',
+      name: 'settings',
+      component: Setting
     }
   ]
 })
