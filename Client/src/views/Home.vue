@@ -14,7 +14,7 @@
             <div class=" col my-auto">
                 <h2>Qui somme-nous ?</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh nulla, accumsan at justo sit amet, dignissim dictum eros. Curabitur ac ligula vitae ligula tempus dictum ac sed nisi. Donec luctus eros dapibus malesuada congue. Etiam ultrices turpis a rutrum imperdiet. Mauris mi ex, commodo nec rutrum iaculis, dignissim tristique turpis. Phasellus tellus diam, varius pharetra odio ut, pulvinar dapibus nibh. Curabitur vitae risus a eros pharetra tincidunt sit amet et leo.</p>
-                <Btn :Text="'En savoir plus'" />
+                
             </div>
         </div>
     </div>
@@ -55,8 +55,25 @@
             <div class="col-8">
                 <h2> Découvrez notre gamme de produits</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh nulla, accumsan at justo sit amet, dignissim dictum eros. Curabitur ac ligula vitae ligula tempus dictum ac sed nisi. Donec luctus eros dapibus malesuada congue. Etiam ultrices turpis a rutrum imperdiet. Mauris mi ex, commodo nec rutrum iaculis, dignissim tristique turpis. Phasellus tellus diam, varius pharetra odio ut, pulvinar dapibus nibh. Curabitur vitae risus a eros pharetra tincidunt sit amet et leo.</p>
-                <Btn :Text="'Je découvre'"/>
+                
             </div>
         </div>
     </div>
 </template>
+
+<script>
+    import serverRequest from '../Controller/serverRequest';
+
+    export default {
+        methods : {
+            test(){
+                serverRequest.GetAllArticle().then(res => {
+                    console.log(res);
+                })
+            }
+        },
+        mounted (){
+            this.test();
+        }
+    }
+</script>
