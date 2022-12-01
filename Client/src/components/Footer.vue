@@ -3,9 +3,9 @@
         <div>
             <h2>Pharmacie FIDELE</h2>
             <ul>
-                <li>Sint-Elisabethstraat, 54, 9120 Else</li>
-                <li>Ntimpirantije Abel</li>
-                <li><strong>Télephone : </strong> 03 296 82 43 | <strong>Mail :</strong> User@user.be</li>
+                <li>{{settings.Adresse}}</li>
+                <li v-if="settings.Contact">{{settings.Contact[0].Name}}  {{settings.Contact[0].FirstName}}</li>
+                <li v-if="settings.Contact"><strong>Télephone : </strong> {{settings.Contact[0].PhoneNumber}}| <strong>Mail :</strong> {{settings.Contact[0].Mail}}</li>
             </ul>
         </div>
 
@@ -20,3 +20,25 @@
        </div>
     </footer>
 </template>
+
+<script>
+    import serverRequest from '../Controller/serverRequest';
+    export default {
+        data(){
+            return {
+                settings:{}
+            }
+        },
+        methods:{
+            SetSettings(){
+                serverRequest.GetSettings().then((res)=>{
+                    console.log(res);
+                    this.settings=res
+                })
+            }
+        },
+        mounted(){
+            this.SetSettings();
+        }
+    }
+</script>

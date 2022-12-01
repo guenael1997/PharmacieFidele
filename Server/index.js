@@ -16,10 +16,7 @@ app.use(cors())
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://guenael1997:17Pokemonninja@cluster0.mip6smh.mongodb.net/?retryWrites=true&w=majority');
 
-//Body-parser
-const bodyParser= require("body-parser");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+
 
 //init Passport-Local-Mongoose
 const Passport = require('passport');
@@ -32,6 +29,11 @@ Passport.deserializeUser(User.deserializeUser());
 const formidable=require('formidable');
 const e = require('express');
 const form = formidable({uploadDir:__dirname+'/Image',keepExtensions:true});
+
+//Body-parser
+const bodyParser= require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true,limit:"50mb",parameterLimit:50000}));
 
 
 //Login Route
@@ -70,7 +72,7 @@ app.route("/articles")
         if(!err){
             console.log('ok ici');
             Object=fields;
-            Object.Image="http://localhost:8000/Image/"+files.Image.newFilename
+            Object.Image="http://localhost:8000/Image/"+files.ImageFile.newFilename
 
             const NewArticle = new Article(Object);
             NewArticle.save((err,obj)=>{
@@ -100,9 +102,12 @@ app.route("/article/:ArticleID")
     var Object;
     form.parse(req,(err,fields,files)=>{
         if(!err){
-            console.log('ok ici');
+            console.log(files);
             Object=fields;
-            Object.Image="http://localhost:8000/Image/"+files.Image.newFilename
+            if(files.ImageFile.size!=0)
+            {
+                Object.Image="http://localhost:8000/Image/"+files.ImageFile.newFilename
+            }
 
             Article.updateOne({_id:req.params.ArticleID},{$set:Object},(err,obj)=>{
                 if(err){
@@ -116,7 +121,8 @@ app.route("/article/:ArticleID")
     })
 })
 .delete((req,res)=>{
-    Article.deleteOne({Id:req.params.ArticleID},(err)=>{
+    console.log(req.params.ArticleID)
+    Article.deleteOne({_id:req.params.ArticleID},(err)=>{
         if(err){
             res.send(err);
         }
@@ -140,6 +146,9 @@ app.route("/users")
         if(err){
             res.send(err);
         }
+        else{
+            res.send(obj);
+        }
     })
 })
 
@@ -158,17 +167,20 @@ app.route("/user/:userID")
     const Object = {
         username:req.body.username,
         email:req.body.email,
-        password:req.body.password
+        oldpwd:req.body.oldpwd,
+        newpwd:req.body.newpwd
     }
-    if(Object.password != null){
+    console.log(Object)
+    if(Object.newpwd != null & Object.newpwd!=""){
         User.findOne({_id:req.params.userID},(err,obj)=>{
             if(err){
                 res.send(err)
             }
             else{
-                obj.changePassword(req.body.oldpwd,Object.password,(err)=>{
+                obj.changePassword(Object.oldpwd,Object.newpwd,(err)=>{
                     if(err){
-                        res.send(err)
+                        console.log(err)
+                        
                     }
                     else{
                         Object.password=null
@@ -177,7 +189,7 @@ app.route("/user/:userID")
             }
         })
     }
-    User.updateOne({_id:req.params.userID},{$set:Object},(err)=>{
+    User.updateOne({_id:req.params.userID},{username:Object.username,email:Object.email},(err)=>{
         if(err){
             res.send(err);
         }
@@ -248,6 +260,26 @@ app.route("/commande/:commandeID")
         }
     })
 })
+.patch((req,res)=>{
+    var Object = req.body
+    NewArticles=Object.Articles.filter(element=>element.number!=0);
+    Object.Articles=NewArticles
+    Commande.replaceOne({_id:req.params.commandeID},{Articles:Object.Article},{strict:true},(err,obj)=>{
+        if(err){
+            res.send(err);
+        }
+        else{
+            Commande.updateOne({_id:req.params.commandeID},{$set:Object},(err,obj)=>{
+                if(err){
+                    res.send(err);
+                }
+                else{
+                    res.send(obj);
+                }
+            })
+        }
+    })
+})
 .delete((req,res)=>{
     Commande.deleteOne({_id:req.params.commandeID},(err)=>{
         if(err){
@@ -274,6 +306,7 @@ app.route("/settings")
     })
 })
 .put((req,res)=>{
+    console.log(req.body)
     Settings.updateOne({_id:"6380acf50a9354945c6c8b53"},{$set:req.body},(err,obj)=>{
         if(err){
             res.send(err);

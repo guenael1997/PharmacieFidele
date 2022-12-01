@@ -40,3 +40,21 @@
         </div>
     </div>
 </template>
+<script>
+    import session from '../Controller/session';
+    export default {
+        methods :{
+            loginCheck(){
+                session.IsAlreadyConnected().then(res=>{
+                    console.log(res);
+                    if(res==false){
+                        this.$router.push("login")
+                    }
+                })
+            }
+        },
+        mounted(){
+            this.loginCheck();
+        }
+    }
+</script>

@@ -19,28 +19,28 @@
         </div>
     </div>
 
-    <div class="container-fluid bg-success" style="color:white">
+    <div class="container-fluid bg-success" style="color:white" v-if="settings">
         <div class="row p-5">
             <div class="col my-auto">
                 <h2>Toujours à votre disposition !</h2>
                 <div>
                     <h3>Adresse</h3>
-                    <p>Sint-Elisabethstraat,54 9120 Else</p>
+                    <p>{{settings.Adresse}}</p>
                 </div>
                 <div>
                     <h3>Téléphone</h3>
-                    <p>03 296 82 43</p>
+                    <p>{{settings.PhoneNumber}}</p>
                 </div>
                 <div>
                     <h3>Heure d'ouverture</h3>
                     <ul>
-                        <li><strong>Lundi :</strong> 8h-19h30</li>
-                        <li><strong>Mardi :</strong> 8h-19h30</li>
-                        <li><strong>Mercredi :</strong> 8h-19h30</li>
-                        <li><strong>Jeudi :</strong> 8h-19h30</li>
-                        <li><strong>Vendredi :</strong> 8h-19h30</li>
-                        <li><strong>Samedi :</strong> 8h-19h30</li>
-                        <li><strong>Dimanche :</strong> 8h-19h30</li>
+                        <li v-if="settings.Horaire"><strong>Lundi :</strong> {{settings.Horaire[0].start}}h - {{settings.Horaire[0].end}}h</li>
+                        <li v-if="settings.Horaire"><strong>Mardi :</strong> {{settings.Horaire[1].start}}h - {{settings.Horaire[1].end}}h</li>
+                        <li v-if="settings.Horaire"><strong>Mercredi :</strong> {{settings.Horaire[2].start}}h - {{settings.Horaire[2].end}}h</li>
+                        <li v-if="settings.Horaire"><strong>Jeudi :</strong> {{settings.Horaire[3].start}}h - {{settings.Horaire[3].end}}h</li>
+                        <li v-if="settings.Horaire"><strong>Vendredi :</strong> {{settings.Horaire[4].start}}h - {{settings.Horaire[4].end}}h</li>
+                        <li v-if="settings.Horaire"><strong>Samedi :</strong> {{settings.Horaire[5].start}}h - {{settings.Horaire[5].end}}h</li>
+                        <li v-if="settings.Horaire"><strong>Dimanche :</strong> {{settings.Horaire[6].start}}h - {{settings.Horaire[6].end}}h</li>
                     </ul>
                 </div>
             </div>
@@ -65,10 +65,16 @@
     import serverRequest from '../Controller/serverRequest';
 
     export default {
+        data(){
+            return {
+                settings:{}
+            }
+        },
         methods : {
             test(){
-                serverRequest.GetAllArticle().then(res => {
+                serverRequest.GetSettings().then((res)=>{
                     console.log(res);
+                    this.settings = res ;
                 })
             }
         },

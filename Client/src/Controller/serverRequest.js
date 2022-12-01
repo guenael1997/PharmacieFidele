@@ -1,7 +1,8 @@
 //Settings Request
 function GetSettings(){
-    fetch("http://localhost:8000/settings").
-    then((res)=>{
+    return fetch("http://localhost:8000/settings")
+    .then(res=> res.json())
+    .then((res)=>{
         return res
     })
     .catch((err)=>{
@@ -11,10 +12,16 @@ function GetSettings(){
 
 function SetSettings(NewSettings){
     var init = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         method:"PUT",
-        body:NewSettings
+        body:JSON.stringify(NewSettings)
     }
-    fetch("http://localhost:8000/settings",init).then((res)=>{
+    return fetch("http://localhost:8000/settings",init)
+    .then(res=> res.json())
+    .then((res)=>{
         return res
     }).catch((err)=>{
         return err
@@ -37,11 +44,12 @@ function GetAllArticle(){
 }
 
 function AddNewArticle(NewArticle){
+    console.log('new article')
     var init = {
         method:"POST",
         body:NewArticle
     }
-    fetch("http://localhost:8000/articles").
+    fetch("http://localhost:8000/articles",init).
     then((res)=>{
         return res
     })
@@ -51,7 +59,8 @@ function AddNewArticle(NewArticle){
 }
 
 function GetArticle(ArticleID){
-    fetch("http://localhost:8000/article/"+ArticleID).
+    return fetch("http://localhost:8000/article/"+ArticleID).
+    then(res=> res.json()).
     then((res)=>{
         return res
     })
@@ -65,8 +74,8 @@ function ModifyArticle(ArticleID,NewArticle){
         method:"PUT",
         body:NewArticle
     }
-    fetch("http://localhost:8000/article/"+ArticleID).
-    then((res)=>{
+    fetch("http://localhost:8000/article/"+ArticleID,init)
+    .then((res)=>{
         return res
     })
     .catch((err)=>{
@@ -78,9 +87,10 @@ function RemoveArticle(ArticleID){
     var init = {
         method:"DELETE",
     }
-    fetch("http://localhost:8000/article/"+ArticleID).
-    then((res)=>{
-        return res
+    fetch("http://localhost:8000/article/"+ArticleID,init)
+    .then(res=>res.json())
+    .then((res)=>{
+        console.log(res);
     })
     .catch((err)=>{
         return err
@@ -89,8 +99,9 @@ function RemoveArticle(ArticleID){
 
 //User Request
 function GetAllUsers(){
-    fetch("http://localhost:8000/users").
-    then((res)=>{
+    return fetch("http://localhost:8000/users").
+    then(res=>res.json())
+    .then((res)=>{
         return res
     })
     .catch((err)=>{
@@ -100,10 +111,15 @@ function GetAllUsers(){
 
 function RegisterNewUser(NewUser){
     var init = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
         method:"POST",
-        body:NewUser
+        body:JSON.stringify(NewUser)
     }
-    fetch("http://localhost:8000/users").
+    fetch("http://localhost:8000/users",init).
+    then(res=>res.json()).
     then((res)=>{
         return res
     })
@@ -113,7 +129,8 @@ function RegisterNewUser(NewUser){
 }
 
 function GetUser(UserID){
-    fetch("http://localhost:8000/user/"+UserID).
+    return fetch("http://localhost:8000/user/"+UserID).
+    then(res=>res.json()).
     then((res)=>{
         return res
     })
@@ -123,11 +140,17 @@ function GetUser(UserID){
 }
 
 function ModifyUser(UserID,NewUser){
+    console.log(NewUser,UserID)
     var init = {
-        method:"PUT",
-        body:NewUser
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method:"PATCH",
+        body:JSON.stringify(NewUser)
     }
-    fetch("http://localhost:8000/user/"+UserID).
+    fetch("http://localhost:8000/user/"+UserID,init).
+    then(res=>res.json).
     then((res)=>{
         return res
     })
@@ -140,7 +163,7 @@ function RemoveUser(UserID){
     var init = {
         method:"DELETE",
     }
-    fetch("http://localhost:8000/user/"+UserID).
+    fetch("http://localhost:8000/user/"+UserID,init).
     then((res)=>{
         return res
     })
@@ -153,7 +176,8 @@ function RemoveUser(UserID){
 //Commande request
 
 function GetAllCommandes(){
-    fetch("http://localhost:8000/commandes").
+    return fetch("http://localhost:8000/commandes").
+    then(res=>res.json()).
     then((res)=>{
         return res
     })
@@ -163,13 +187,19 @@ function GetAllCommandes(){
 }
 
 function AddNewCommande(NewCommande){
+    console.log(NewCommande);
     var init = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
         method:"POST",
-        body:NewCommande
+        body:JSON.stringify(NewCommande)
     }
-    fetch("http://localhost:8000/commandes").
+    fetch("http://localhost:8000/commandes",init).
+    then(res=>res.json()).
     then((res)=>{
-        return res
+        console.log(res);
     })
     .catch((err)=>{
         return err
@@ -177,7 +207,8 @@ function AddNewCommande(NewCommande){
 }
 
 function GetCommande(CommandeID){
-    fetch("http://localhost:8000/commande/"+CommandeID).
+    return fetch("http://localhost:8000/commande/"+CommandeID).
+    then(res=>res.json()).
     then((res)=>{
         return res
     })
@@ -187,11 +218,17 @@ function GetCommande(CommandeID){
 }
 
 function ModifyCommande(CommandeID,NewCommande){
+    console.log(NewCommande)
     var init = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
         method:"PUT",
-        body:NewCommande
+        body:JSON.stringify(NewCommande)
     }
-    fetch("http://localhost:8000/user/"+CommandeID).
+    fetch("http://localhost:8000/commande/"+CommandeID,init).
+    then(res=>res.json()).
     then((res)=>{
         return res
     })
@@ -204,7 +241,7 @@ function removeCommande(CommandeID){
     var init = {
         method:"DELETE",
     }
-    fetch("http://localhost:8000/user/"+CommandeID).
+    fetch("http://localhost:8000/commande/"+CommandeID,init).
     then((res)=>{
         return res
     })
@@ -215,7 +252,16 @@ function removeCommande(CommandeID){
 
 //login Request
 function login(LogData){
-    fetch("http://localhost:8000/login")
+    var init = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method:"POST",
+          body:JSON.stringify(LogData)
+    }
+    return fetch("http://localhost:8000/login",init)
+    .then(res=>res.json())
     .then((res)=>{
         return res
     }).catch((err)=>{
@@ -223,7 +269,7 @@ function login(LogData){
     })
 }
 
-export default{GetSettings,SetSettings,GetAllUsers,RegisterNewUser,GetUser,ModifyUser,RemoveUser,GetAllArticle,AddNewArticle,GetArticle,ModifyArticle,RemoveArticle,GetAllCommandes,AddNewCommande,GetCommande,ModifyCommande,removeCommande}
+export default{GetSettings,SetSettings,GetAllUsers,RegisterNewUser,GetUser,ModifyUser,RemoveUser,GetAllArticle,AddNewArticle,GetArticle,ModifyArticle,RemoveArticle,GetAllCommandes,AddNewCommande,GetCommande,ModifyCommande,removeCommande,login}
 
 
 

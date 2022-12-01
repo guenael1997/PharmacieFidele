@@ -1,0 +1,20 @@
+{
+  "name": "pharmaciefiedele",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serv": "cd server && nodemon index.js",
+    "client":"cd Client && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guenael1997/PharmacieFidele.git"
+  },
+  "author": "Guenaël",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guenael1997/PharmacieFidele/issues"
+  },
+  "homepage": "https://github.com/guenael1997/PharmacieFidele#readme"
+}

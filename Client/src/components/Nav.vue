@@ -14,17 +14,48 @@
           <a class="nav-link" href="/products">Produits</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/about">A propos de nous</a>
+        </li>
+        <li class="nav-item" v-if="IsLogged">
+          <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item" v-if="IsLogged">
+          <div class="nav-link" aria-current="page" v-on:click="logOut()" style="cursor:pointer">Se déconnecter</div>
+        </li>
+        <li class="nav-item" v-else>
           <a class="nav-link" aria-current="page" href="login">S'identifier</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="pannier">Pannier</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>
 </template>
+
+<script>
+  import session from '../Controller/session';
+  export default{
+    data(){
+      return{
+        IsLogged:false
+      }
+    },
+    methods:{
+      isLogged(){
+        session.IsAlreadyConnected().then(res=>{
+          console.log(res)
+          this.IsLogged=res
+        })
+      },
+      logOut(){
+        console.log("click")
+        session.logOut()
+      }
+    },
+    mounted(){
+      this.isLogged()
+    }
+  }
+</script>

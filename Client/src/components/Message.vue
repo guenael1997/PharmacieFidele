@@ -7,7 +7,7 @@
                 <p> Vous recevrez un message au numéro de téléphone indiqué une fois que votre commande sera prête à être receptionner. Vous pouvez également télécharger votre facture <a>ici</a></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success">Continuer</button>
+                <a type="button" class="btn btn-success" href="/">Continuer</a>
             </div>
         </div>
     </div>
