@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serv": "cd server && nodemon index.js",
+    "serv": "cd server && npm run serve",
     "client":"cd Client && npm run dev"
   },
   "repository": {
